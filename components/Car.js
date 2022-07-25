@@ -1,7 +1,9 @@
 import tw from 'tailwind-styled-components';
 import { BsFillPeopleFill } from 'react-icons/bs';
 
-const Car = ({ img, service, multiplier, selected, toggleSelect, limit }) => {
+const Car = ({ img, service, multiplier, selected, toggleSelect, limit, duration }) => {
+	const price = '$' + (duration * multiplier).toFixed(2);
+
 	return (
 		<Wrapper onClick={toggleSelect} $selected={selected}>
 			<CarImage src={img} />
@@ -17,7 +19,7 @@ const Car = ({ img, service, multiplier, selected, toggleSelect, limit }) => {
 				</ServiceDetail>
 				<Time>5 min away</Time>
 			</CarDetails>
-			<Price>$24.00</Price>
+			<Price>{price}</Price>
 		</Wrapper>
 	);
 };

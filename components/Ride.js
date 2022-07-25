@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import tw from 'tailwind-styled-components';
 import Car from './Car';
 import { carList } from '../data/carList';
+import { useMapContext } from '../contexts/MapContext';
 
 const Ride = () => {
 	const [carData, setCarData] = useState(carList);
+	const { rideDuration } = useMapContext();
 
 	const toggleSelect = id => {
 		setCarData(prevCarData => {
@@ -30,6 +32,7 @@ const Ride = () => {
 				selected={car.selected}
 				toggleSelect={() => toggleSelect(car.id)}
 				limit={car.limit}
+				duration={rideDuration}
 			/>
 		);
 	});

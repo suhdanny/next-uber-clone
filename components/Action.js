@@ -6,7 +6,13 @@ import Ride from './Ride';
 const Action = () => {
 	const [locationInputFocus, setLocationInputFocus] = useState(false);
 	const [destinationInputFocus, setDestinationInputFocus] = useState(false);
-	const { inputData, handleChange, handleSubmit } = useMapContext();
+	const { inputData, handleChange, calculateCoordinates } = useMapContext();
+	const [showRide, setShowRide] = useState(false);
+
+	const handleSubmit = () => {
+		calculateCoordinates();
+		setShowRide(true);
+	};
 
 	const headingElement = () => {
 		if (locationInputFocus) {
@@ -39,10 +45,12 @@ const Action = () => {
 				/>
 				<Button onClick={handleSubmit}>Confirm Locations</Button>
 			</InputContainer>
-			<RideContainer>
-				<Ride />
-				<Button>Confirm UberX</Button>
-			</RideContainer>
+			{showRide && (
+				<RideContainer>
+					<Ride />
+					<Button>Confirm UberX</Button>
+				</RideContainer>
+			)}
 		</Wrapper>
 	);
 };

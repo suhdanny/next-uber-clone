@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
 const MapContext = React.createContext();
 
@@ -11,6 +11,14 @@ export const MapContextProvider = ({ children }) => {
 	});
 	const [location, setLocation] = useState([]);
 	const [destination, setDestination] = useState([]);
+	const [rideDuration, setRideDuration] = useState(0);
+	const [routeCoordinates, setRouteCoordinates] = useState([]);
+
+	useEffect(() => {
+		if (location.length > 0 && destination.length > 0) {
+			fetchDirection(location, destination);
+		}
+	}, [location, destination]);
 
 	const handleChange = e => {
 		setInputData(prevInputData => {
@@ -21,7 +29,7 @@ export const MapContextProvider = ({ children }) => {
 		});
 	};
 
-	const handleSubmit = () => {
+	const calculateCoordinates = () => {
 		getCoordinates(inputData.location).then(coordinates => setLocation(coordinates));
 		getCoordinates(inputData.destination).then(coordinates => setDestination(coordinates));
 	};
@@ -40,12 +48,27 @@ export const MapContextProvider = ({ children }) => {
 		return data.features[0].center;
 	};
 
+	const fetchDirection = async (loc, des) => {
+		const res = await fetch(
+			`https://api.mapbox.com/directions/v5/mapbox/driving/${loc[0]},${loc[1]};${des[0]},${des[1]}?` +
+				new URLSearchParams({
+					access_token: 'pk.eyJ1Ijoic3VoZGFubnkiLCJhIjoiY2w2MDIycGtoMTkzNDNpbW05b2wzaGJ2eCJ9.QC8bL8hpj20dvLmFM7EY0Q',
+					geometries: 'geojson',
+				})
+		);
+		const data = await res.json();
+		setRideDuration(data.routes[0].duration / 100);
+		setRouteCoordinates(data.routes[0].geometry.coordinates);
+	};
+
 	const value = {
 		inputData,
 		handleChange,
-		handleSubmit,
+		calculateCoordinates,
 		location,
 		destination,
+		rideDuration,
+		routeCoordinates,
 	};
 
 	return <MapContext.Provider value={value}>{children}</MapContext.Provider>;

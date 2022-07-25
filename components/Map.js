@@ -6,7 +6,7 @@ import { useMapContext } from '../contexts/MapContext';
 mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoZGFubnkiLCJhIjoiY2w2MDIycGtoMTkzNDNpbW05b2wzaGJ2eCJ9.QC8bL8hpj20dvLmFM7EY0Q';
 
 const Map = () => {
-	const { location, destination } = useMapContext();
+	const { location, destination, routeCoordinates } = useMapContext();
 
 	const addMarker = (map, coordinates) => {
 		const marker = new mapboxgl.Marker({ color: 'black' }).setLngLat(coordinates).addTo(map);
@@ -26,8 +26,35 @@ const Map = () => {
 			map.fitBounds([location, destination], {
 				padding: { left: 800, right: 300 },
 			});
+			map.on('load', () => {
+				map.addSource('route', {
+					type: 'geojson',
+					data: {
+						type: 'Feature',
+						properties: {},
+						geometry: {
+							type: 'LineString',
+							coordinates: routeCoordinates,
+						},
+					},
+				});
+
+				map.addLayer({
+					id: 'route',
+					type: 'line',
+					source: 'route',
+					layout: {
+						'line-join': 'round',
+						'line-cap': 'round',
+					},
+					paint: {
+						'line-color': 'black',
+						'line-width': 5,
+					},
+				});
+			});
 		}
-	}, [location, destination]);
+	}, [location, destination, routeCoordinates]);
 
 	return <Wrapper id='map'></Wrapper>;
 };
