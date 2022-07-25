@@ -1,11 +1,20 @@
 import tw from 'tailwind-styled-components';
+import { BsFillPeopleFill } from 'react-icons/bs';
 
-const Car = ({ img, service, multiplier }) => {
+const Car = ({ img, service, multiplier, selected, toggleSelect, limit }) => {
 	return (
-		<Wrapper>
+		<Wrapper onClick={toggleSelect} $selected={selected}>
 			<CarImage src={img} />
 			<CarDetails>
-				<Service>{service}</Service>
+				<ServiceDetail>
+					<Service>{service}</Service>
+					{selected && (
+						<>
+							<BsFillPeopleFill style={{ marginRight: 3 }} />
+							<Limit>{limit}</Limit>
+						</>
+					)}
+				</ServiceDetail>
 				<Time>5 min away</Time>
 			</CarDetails>
 			<Price>$24.00</Price>
@@ -14,7 +23,8 @@ const Car = ({ img, service, multiplier }) => {
 };
 
 const Wrapper = tw.div`
-    flex p-4 items-center cursor-pointer 
+    flex p-4 items-center cursor-pointer
+	${p => (p.$selected ? 'border-2 border-gray-300' : 'border-0')}
 `;
 
 const CarImage = tw.img`
@@ -25,8 +35,16 @@ const CarDetails = tw.div`
     flex-1 flex flex-col justify-center
 `;
 
+const ServiceDetail = tw.div`
+    flex items-center
+`;
+
 const Service = tw.div`
-    font-medium text-lg
+	font-medium text-lg mr-2
+`;
+
+const Limit = tw.span`
+	text-sm
 `;
 
 const Time = tw.div`
