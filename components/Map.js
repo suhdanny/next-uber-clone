@@ -1,27 +1,15 @@
 import { useEffect, useState } from 'react';
 import tw from 'tailwind-styled-components';
 import mapboxgl from '!mapbox-gl';
+import { useMapContext } from '../contexts/MapContext';
 
-const accessToken = 'pk.eyJ1Ijoic3VoZGFubnkiLCJhIjoiY2w2MDIycGtoMTkzNDNpbW05b2wzaGJ2eCJ9.QC8bL8hpj20dvLmFM7EY0Q';
-
-mapboxgl.accessToken = accessToken;
+mapboxgl.accessToken = 'pk.eyJ1Ijoic3VoZGFubnkiLCJhIjoiY2w2MDIycGtoMTkzNDNpbW05b2wzaGJ2eCJ9.QC8bL8hpj20dvLmFM7EY0Q';
 
 const Map = () => {
-	const getCoordinates = async location => {
-		const res = await fetch(
-			`https://api.mapbox.com/geocoding/v5/mapbox.places/${location}.json?` +
-				new URLSearchParams({
-					access_token: accessToken,
-					limit: 1,
-				})
-		);
-		const data = await res.json();
-
-		return data.features[0].center;
-	};
+	const { location, destination } = useMapContext();
 
 	const addMarker = (map, coordinates) => {
-		const marker = new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
+		const marker = new mapboxgl.Marker({ color: 'black' }).setLngLat(coordinates).addTo(map);
 	};
 
 	useEffect(() => {
@@ -31,7 +19,12 @@ const Map = () => {
 			center: [-79.3832, 43.6532],
 			zoom: 13,
 		});
-	});
+
+		if (location.length > 0 && destination.length > 0) {
+			addMarker(map, location);
+			addMarker(map, destination);
+		}
+	}, [location, destination]);
 
 	return <Wrapper id='map'></Wrapper>;
 };

@@ -1,9 +1,11 @@
 import tw from 'tailwind-styled-components';
 import { useState } from 'react';
+import { useMapContext } from '../contexts/MapContext';
 
 const Action = () => {
 	const [locationInputFocus, setLocationInputFocus] = useState(false);
 	const [destinationInputFocus, setDestinationInputFocus] = useState(false);
+	const { inputData, handleChange, handleSubmit } = useMapContext();
 
 	const headingElement = () => {
 		if (locationInputFocus) {
@@ -18,13 +20,23 @@ const Action = () => {
 		<Wrapper>
 			{headingElement()}
 			<InputContainer>
-				<Input placeholder='Enter your location' onFocus={() => setLocationInputFocus(true)} onBlur={() => setLocationInputFocus(false)} />
+				<Input
+					placeholder='Enter your location'
+					onFocus={() => setLocationInputFocus(true)}
+					onBlur={() => setLocationInputFocus(false)}
+					onChange={handleChange}
+					name='location'
+					value={inputData.location}
+				/>
 				<Input
 					placeholder='Enter your destination'
 					onFocus={() => setDestinationInputFocus(true)}
 					onBlur={() => setLocationInputFocus(false)}
+					onChange={handleChange}
+					name='destination'
+					value={inputData.destination}
 				/>
-				<Button>Confirm Locations</Button>
+				<Button onClick={handleSubmit}>Confirm Locations</Button>
 			</InputContainer>
 			<RideContainer></RideContainer>
 		</Wrapper>
