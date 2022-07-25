@@ -23,6 +23,9 @@ const Map = () => {
 		if (location.length > 0 && destination.length > 0) {
 			addMarker(map, location);
 			addMarker(map, destination);
+			map.fitBounds([location, destination], {
+				padding: { left: 800, right: 300 },
+			});
 		}
 	}, [location, destination]);
 
