@@ -1,6 +1,7 @@
 import tw from 'tailwind-styled-components';
 import { useState } from 'react';
 import { useMapContext } from '../contexts/MapContext';
+import Ride from './Ride';
 
 const Action = () => {
 	const [locationInputFocus, setLocationInputFocus] = useState(false);
@@ -38,7 +39,10 @@ const Action = () => {
 				/>
 				<Button onClick={handleSubmit}>Confirm Locations</Button>
 			</InputContainer>
-			<RideContainer></RideContainer>
+			<RideContainer>
+				<Ride />
+				<Button>Confirm UberX</Button>
+			</RideContainer>
 		</Wrapper>
 	);
 };
@@ -64,7 +68,7 @@ const Button = tw.button`
 `;
 
 const RideContainer = tw.div`
-    flex-1 mt-3 bg-gray-100
+    flex-1 mt-3 flex flex-col
 `;
 
 export default Action;
