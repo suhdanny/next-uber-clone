@@ -1,7 +1,17 @@
-import Head from 'next/head';
-import Image from 'next/image';
-import styles from '../styles/Home.module.css';
+import { useEffect } from 'react';
+import tw from 'tailwind-styled-components';
+import Header from './components/Header';
+import Map from './components/Map';
 
 export default function Home() {
-	return <h1 className='text-red-500'>Home</h1>;
+	return (
+		<Wrapper>
+			<Header />
+			<Map />
+		</Wrapper>
+	);
 }
+
+const Wrapper = tw.div`
+	flex flex-col h-screen
+`;
