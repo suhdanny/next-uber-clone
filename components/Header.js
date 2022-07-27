@@ -1,4 +1,6 @@
 import tw from 'tailwind-styled-components';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { signOut } from 'firebase/auth';
 
 const Header = () => {
 	return (

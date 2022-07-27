@@ -57,8 +57,8 @@ export const MapContextProvider = ({ children }) => {
 				})
 		);
 		const data = await res.json();
-		setRideDuration(data.routes[0].duration / 60);
-		setRouteCoordinates(data.routes[0].geometry.coordinates);
+		setRideDuration(data?.routes[0].duration / 60);
+		setRouteCoordinates(data?.routes[0].geometry.coordinates);
 	};
 
 	const value = {
