@@ -2,13 +2,13 @@
 
 Built with the following technologies:
 
--   React
--   NextJS
--   Tailwind
--   Firebase
--   MapBox
--   react-icons
--   react-firebase hooks
+-   [React](https://reactjs.org/)
+-   [NextJS](https://nextjs.org/)
+-   [Tailwind](https://tailwindcss.com/)
+-   [Firebase](https://firebase.google.com/)
+-   [MapBox](https://www.mapbox.com/)
+-   [react-icons](https://react-icons.github.io/react-icons/)
+-   [react-firebase-hooks](https://github.com/CSFrequency/react-firebase-hooks)
 
 ## Features
 
